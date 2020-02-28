@@ -63,7 +63,6 @@ int main(int argc, char* argv[]){
     }
     else if (argc == 6){
         //compute difference map
-        cout << "6 args" << endl;
         if (string(argv[2]) != "-d"){
             cout << "Invalid arguments... terminating program..." << endl;
             return 0;
@@ -76,8 +75,7 @@ int main(int argc, char* argv[]){
         s << argv[4];
         s >> sliceJ;
         string out = string(argv[5]);
-        cout << sliceI << sliceJ << out << endl;
-        cout << "Difference map computation between images " << sliceI << " and slice " << sliceJ << " requested." << endl;
+        cout << "Difference map computation between slice " << sliceI << " and slice " << sliceJ << " requested." << endl;
         cout << "Reading in images..." << endl;
         if(!vm.readImages(in_prefix)){
             cout << "Error parsing data files. Terminating program..." << endl;

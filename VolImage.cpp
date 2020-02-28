@@ -1,3 +1,10 @@
+/**
+ * Clara Esther Stassen
+ * STSCLA001
+ * CSC3022F Assignment 2
+ * February 2020
+*/
+
 #include "VolImage.h"
 
 using namespace std;
@@ -144,7 +151,7 @@ void VolImage::diffmap(int sliceI, int sliceJ, string output_prefix){
         of.write((char *)buffer, width);
     }
     of.close();
-    cout << "Difference map computed succesfully." << endl;
+    cout << "Difference map computed succesfully. Output written to " << output_prefix << ".raw" << endl;
 }
 
 // extract slice sliceId and write to output - define in .cpp
@@ -175,7 +182,7 @@ void VolImage::extract_row(int rowId, string output_prefix){
         of.write((char *)buffer, width);
     }
     of.close();
-    cout << "Slice extraction successful." << endl;    
+    cout << "Slice extraction successful. Output written to " << output_prefix << ".raw" << endl;    
 }
 // extract slice sliceId and write to output - define in .cpp
 void VolImage::extract(int sliceId, string output_prefix){
@@ -202,7 +209,7 @@ void VolImage::extract(int sliceId, string output_prefix){
         of.write((char *)slice[y], width);
     }
     of.close();
-    cout << "Slice extraction successful." << endl;    
+    cout << "Slice extraction successful. Output written to " << output_prefix << ".raw" << endl;    
 }
 
 // number of bytes uses to store image data bytes
@@ -210,7 +217,8 @@ void VolImage::extract(int sliceId, string output_prefix){
 int VolImage::volImageSize(void){
     //dummy pointers for sizing
     char * p;
-    int size = height*width*sizeof(char) + height*sizeof(p) + numImages*sizeof(p);
+    int size = numImages*(height*width*sizeof(char) + height*sizeof(p)) + numImages*sizeof(p);
+    //int size = height*width*sizeof(char) + height*sizeof(p) + numImages*sizeof(p);
     return size;
 }
 int VolImage::noImages(void){

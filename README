@@ -1,0 +1,48 @@
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+//                            VOLIMAGE                                //
+//                                                                    //
+////////////////////////////////////////////////////////////////////////
+
+Clara Esther Stassen
+STSCLA001
+
+**NB: Data header files to have the format <name>.data and to be stored in
+      data/ directory along with .raw files.
+
+I. File Structure
+------------------
+main.cpp        Driver for volimage containing interface for user-interaction
+
+VolImage.cpp    volimage functions and logic
+
+VolImage.h      VolImage header
+
+Makefile        Makefile to build volimage
+
+README          This file
+
+data/           Data should be stored here - all .raw and .data files. Output files will
+                be written to this directory.
+
+II. How To Compile
+-------------------
+-run $make 
+
+III. How To Run
+----------------
+-run:
+    $./volimage <imagebase> [-d i j output_file_name] [-x i output_file_name] [-g i output_file_name]
+
+IV. Arguments
+--------------
+<imagebase> is required as the prefix for the file sequence
+
+Optional Flags:
+ \---> (Only one can be parsed at a time)
+[-d] is parsed to compute a difference map between images i and j and write it to a file
+[-x] extracts slice i and writes it out to a file
+[-g] extracts a column i along each slice and writes it to a file
+
+If no optional flags are provided the application will build the internal representation
+and display the # of images and bytes required and then erase the memory and exit.
