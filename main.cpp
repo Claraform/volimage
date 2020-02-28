@@ -38,7 +38,7 @@ int main(int argc, char* argv[]){
             }
             cout << "Number of images: " << vm.noImages() << endl;
             cout << "Number of bytes required: " << vm.volImageSize() << endl;
-            vm.extract_col(col, out);
+            vm.extract(col, out);
         }
         else if (string(argv[2])=="-g"){
             int row;

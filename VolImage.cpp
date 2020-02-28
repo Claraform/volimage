@@ -123,11 +123,34 @@ void VolImage::diffmap(int sliceI, int sliceJ, string output_prefix){
 
 // extract slice sliceId and write to output - define in .cpp
 void VolImage::extract_row(int sliceId, string output_prefix){
-
+    
 }
 // extract slice sliceId and write to output - define in .cpp
-void VolImage::extract_col(int sliceId, string output_prefix){
-
+void VolImage::extract(int sliceId, string output_prefix){
+    //slice of interest
+    unsigned char ** slice = slices[sliceId];
+    //Generate header file
+    string dat;
+    ostringstream oss;
+    oss << width;
+    dat += oss.str();
+    oss.str("");
+    oss << height;
+    dat += " " + oss.str() + " 1";
+    string head_name = "data/" + output_prefix + ".data";
+    ofstream ofs(head_name);
+    ofs << dat;
+    ofs.close();
+    //Open raw file
+    string raw_name = "data/" + output_prefix + ".raw";
+    ofstream of;
+    of.open(raw_name, ios::out|ios::binary);
+    //Write rows to file
+    for (int y=0; y<height; y++){
+        of.write((char *)slice[y], width);
+    }
+    of.close();
+    cout << "Slice extraction successful." << endl;    
 }
 
 // number of bytes uses to store image data bytes
