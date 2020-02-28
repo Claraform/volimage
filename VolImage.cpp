@@ -29,7 +29,6 @@ VolImage::~VolImage(){
 }	
 
 // populate the object with images in stack and
-//set member variables define in .cpp
 bool VolImage::readImages(string baseName){
     ifstream ifs("data/" + baseName + ".data");
     if (!ifs){
@@ -42,12 +41,10 @@ bool VolImage::readImages(string baseName){
     istringstream iss(temp);
     int ind = 1;
     string val;
-    //cout << "temp = " << temp << endl;
     while(getline(iss, val, ' ')){
-        //cout << "val = " << val << endl;
         if (ind==1){
             if (!val.empty()){
-                width = stoi(val);
+                width = stoi(val); //set width
             }
             else{
                 cout << "File " << baseName << ".dat contains an incorrect format." << endl;
@@ -57,7 +54,7 @@ bool VolImage::readImages(string baseName){
         }
         if (ind==2){
             if (!val.empty()){
-                height = stoi(val);
+                height = stoi(val); //set height
             }
             else{
                 cout << "File " << baseName << ".dat contains an incorrect format." << endl;
@@ -67,7 +64,7 @@ bool VolImage::readImages(string baseName){
         }
         if (ind==3){
             if (!val.empty()){
-                numImages = stoi(val);
+                numImages = stoi(val); //set number of images
                 ifs.close();
                 break;
             }
@@ -79,10 +76,7 @@ bool VolImage::readImages(string baseName){
         }
         ind++;
     } 
-    //cout << "numImages: " <<  numImages << endl;
-    //cout << "width: " << width << " height: " << height << endl;
     for (int i = 0; i<numImages; i++){
-
         stringstream s;
         s << i;
         string fnum = s.str();
@@ -154,7 +148,7 @@ void VolImage::diffmap(int sliceI, int sliceJ, string output_prefix){
     cout << "Difference map computed succesfully. Output written to " << output_prefix << ".raw" << endl;
 }
 
-// extract slice sliceId and write to output - define in .cpp
+// extract row and write to output
 void VolImage::extract_row(int rowId, string output_prefix){
     //Create a buffer
     unsigned char buffer[width];
@@ -215,10 +209,9 @@ void VolImage::extract(int sliceId, string output_prefix){
 // number of bytes uses to store image data bytes
 //and pointers (ignore vector<> container, dims etc)
 int VolImage::volImageSize(void){
-    //dummy pointers for sizing
+    //dummy pointer for sizing
     char * p;
     int size = numImages*(height*width*sizeof(char) + height*sizeof(p)) + numImages*sizeof(p);
-    //int size = height*width*sizeof(char) + height*sizeof(p) + numImages*sizeof(p);
     return size;
 }
 int VolImage::noImages(void){

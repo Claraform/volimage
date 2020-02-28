@@ -25,6 +25,7 @@ int main(int argc, char* argv[]){
     }
     else if (argc == 5){
         if (string(argv[2])=="-x"){
+            //output an extraction
             int col;
             stringstream s;
             s << argv[3];
@@ -41,6 +42,7 @@ int main(int argc, char* argv[]){
             vm.extract(col, out);
         }
         else if (string(argv[2])=="-g"){
+            //output a row extraction
             int row;
             stringstream s;
             s << argv[3];
