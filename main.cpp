@@ -14,12 +14,14 @@ int main(int argc, char* argv[]){
     VolImage vm; //create a new object
     string in_prefix = argv[1];
     if (argc == 2){
-        //build internal representation
-        //clean memory
-        vm.readImages(in_prefix);
-        cout << "Number of images: " <<  endl;
-        cout << "Number of bytes required: " << endl;
-        //exit
+        cout << "Reading in images..." << endl;
+        if(!vm.readImages(in_prefix)){
+            cout << "Error parsing data files. Terminating program..." << endl;
+            return 0;
+        }
+        cout << "Number of images: " << vm.noImages() << endl;
+        cout << "Number of bytes required: " << vm.volImageSize() << endl;
+        return 0;
     }
     else if (argc == 5){
         if (string(argv[2])=="-x"){
@@ -28,9 +30,14 @@ int main(int argc, char* argv[]){
             s << argv[3];
             s >> col;
             string out = string(argv[4]);
-            vm.readImages(in_prefix);
-            cout << "Number of images: " <<  endl;
-            cout << "Number of bytes required: " << endl;
+            cout << "Column extraction along column " << col << " requested." << endl;
+            cout << "Reading in images..." << endl;
+            if(!vm.readImages(in_prefix)){
+                cout << "Error parsing data files. Terminating program..." << endl;
+                return 0;
+            }
+            cout << "Number of images: " << vm.noImages() << endl;
+            cout << "Number of bytes required: " << vm.volImageSize() << endl;
             vm.extract_col(col, out);
         }
         else if (string(argv[2])=="-g"){
@@ -39,9 +46,14 @@ int main(int argc, char* argv[]){
             s << argv[3];
             s >> row;
             string out = string(argv[4]);
-            vm.readImages(in_prefix);
-            cout << "Number of images: " <<  endl;
-            cout << "Number of bytes required: " << endl;
+            cout << "Row extraction along row " << row << " requested." << endl;
+            cout << "Reading in images..." << endl;
+            if(!vm.readImages(in_prefix)){
+                cout << "Error parsing data files. Terminating program..." << endl;
+                return 0;
+            }
+            cout << "Number of images: " << vm.noImages() << endl;
+            cout << "Number of bytes required: " << vm.volImageSize() << endl;
             vm.extract_row(row, out);
         }
         else{
@@ -65,6 +77,14 @@ int main(int argc, char* argv[]){
         s >> sliceJ;
         string out = string(argv[5]);
         cout << sliceI << sliceJ << out << endl;
+        cout << "Difference map computation between images " << sliceI << " and slice " << sliceJ << " requested." << endl;
+        cout << "Reading in images..." << endl;
+        if(!vm.readImages(in_prefix)){
+            cout << "Error parsing data files. Terminating program..." << endl;
+            return 0;
+        }
+        cout << "Number of images: " << vm.noImages() << endl;
+        cout << "Number of bytes required: " << vm.volImageSize() << endl;
         vm.diffmap(sliceI, sliceJ, out);
     }
     else{

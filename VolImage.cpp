@@ -13,13 +13,18 @@ VolImage::VolImage(){
 
 //destructor
 VolImage::~VolImage(){
-
+    for (int y=0; y<slices.size(); y++){
+        for (int x=0; x<slices.size(); x++){
+            delete[] slices[y][x];
+        }
+    delete[] slices[y];
+    }
 }	
 
 // populate the object with images in stack and
 //set member variables define in .cpp
 bool VolImage::readImages(string baseName){
-    ifstream ifs("data/" + baseName + ".dat");
+    ifstream ifs("data/" + baseName + ".data");
     if (!ifs){
         cout << "Error opening " << baseName << ".dat header file." << endl;
         cout << "Does the file exist in directory data/?" << endl;
@@ -28,10 +33,12 @@ bool VolImage::readImages(string baseName){
     string temp;
     getline(ifs, temp, '\n');
     istringstream iss(temp);
-    int i = 1;
+    int ind = 1;
     string val;
+    //cout << "temp = " << temp << endl;
 	while(getline(iss, val, ' ')){
-        if (i=1){
+       //cout << "val = " << val << endl;
+        if (ind==1){
             if (!val.empty()){
                 width = stoi(val);
             }
@@ -41,7 +48,7 @@ bool VolImage::readImages(string baseName){
                 return false;
             }
         }
-        if (i=2){
+        if (ind==2){
             if (!val.empty()){
                 height = stoi(val);
             }
@@ -51,7 +58,7 @@ bool VolImage::readImages(string baseName){
                 return false;
             }
         }
-        if (i=3){
+        if (ind==3){
             if (!val.empty()){
                 numImages = stoi(val);
                 ifs.close();
@@ -63,9 +70,12 @@ bool VolImage::readImages(string baseName){
                 return false;
             }
         }
-        i++;
-    }
+        ind++;
+    } 
+    //cout << "numImages: " <<  numImages << endl;
+    //cout << "width: " << width << " height: " << height << endl;
     for (int i = 0; i<numImages; i++){
+       
         stringstream s;
         s << i;
         string fnum = s.str();
@@ -83,7 +93,7 @@ bool VolImage::readImages(string baseName){
             ifs.close();
         }
         else{
-            cout << "Unable to open file " << imagename << ". " << endl;
+            cout << "Unable to open file " << imagename << endl;
             return false;
         }
     
@@ -123,7 +133,13 @@ void VolImage::extract_col(int sliceId, string output_prefix){
 // number of bytes uses to store image data bytes
 //and pointers (ignore vector<> container, dims etc)
 int VolImage::volImageSize(void){
-
+    //dummy pointers for sizing
+    char * p;
+    int size = height*width*sizeof(char) + height*sizeof(p) + numImages*sizeof(p);
+    return size;
+}
+int VolImage::noImages(void){
+    return numImages;
 }
 
 
