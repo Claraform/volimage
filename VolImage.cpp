@@ -4,10 +4,10 @@ using namespace std;
 
 //constructor
 VolImage::VolImage(){
-	int width=0;
-	int height=0;
+    int width=0;
+    int height=0;
     int numImages=0;
-	vector<unsigned char**> slices;
+    vector<unsigned char**> slices;
 
 }
 
@@ -17,7 +17,7 @@ VolImage::~VolImage(){
         for (int x=0; x<slices.size(); x++){
             delete[] slices[y][x];
         }
-    delete[] slices[y];
+        delete[] slices[y];
     }
 }	
 
@@ -36,8 +36,8 @@ bool VolImage::readImages(string baseName){
     int ind = 1;
     string val;
     //cout << "temp = " << temp << endl;
-	while(getline(iss, val, ' ')){
-       //cout << "val = " << val << endl;
+    while(getline(iss, val, ' ')){
+        //cout << "val = " << val << endl;
         if (ind==1){
             if (!val.empty()){
                 width = stoi(val);
@@ -75,7 +75,7 @@ bool VolImage::readImages(string baseName){
     //cout << "numImages: " <<  numImages << endl;
     //cout << "width: " << width << " height: " << height << endl;
     for (int i = 0; i<numImages; i++){
-       
+
         stringstream s;
         s << i;
         string fnum = s.str();
@@ -96,7 +96,7 @@ bool VolImage::readImages(string baseName){
             cout << "Unable to open file " << imagename << endl;
             return false;
         }
-    
+
         //Create array for image slice with correct dimensions
         unsigned char ** image = new unsigned char* [height];
         for (int g = 0; g<height; g++){
@@ -118,7 +118,33 @@ bool VolImage::readImages(string baseName){
 
 // compute difference map and write out; define in .cpp
 void VolImage::diffmap(int sliceI, int sliceJ, string output_prefix){
-	//(unsigned char)(abs((float)volume[i][r][c] - (float)volume[j][r][c])/2)
+    //Create a buffer
+    unsigned char buffer[width];
+    //Generate header file
+    string dat;
+    ostringstream oss;
+    oss << width;
+    dat += oss.str();
+    oss.str("");
+    oss << height;
+    dat += " " + oss.str() + " 1";
+    string head_name = "data/" + output_prefix + ".data";
+    ofstream ofs(head_name);
+    ofs << dat;
+    ofs.close();
+    //Open raw file
+    string raw_name = "data/" + output_prefix + ".raw";
+    ofstream of;
+    of.open(raw_name, ios::out|ios::binary);
+    //Write rows to file
+    for (int y=0; y<height; y++){
+        for (int x=0; x<width; x++){
+            buffer[x] = (unsigned char)(abs((float)slices[sliceI][y][x] - (float)slices[sliceJ][y][x]/2));
+        }
+        of.write((char *)buffer, width);
+    }
+    of.close();
+    cout << "Difference map computed succesfully." << endl;
 }
 
 // extract slice sliceId and write to output - define in .cpp
@@ -146,7 +172,7 @@ void VolImage::extract_row(int rowId, string output_prefix){
         for (int x=0; x<width; x++){
             buffer[x] = slices[y][rowId][x];
         }    
-    of.write((char *)buffer, width);
+        of.write((char *)buffer, width);
     }
     of.close();
     cout << "Slice extraction successful." << endl;    
