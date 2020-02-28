@@ -140,7 +140,7 @@ void VolImage::diffmap(int sliceI, int sliceJ, string output_prefix){
     //Write rows to file
     for (int y=0; y<height; y++){
         for (int x=0; x<width; x++){
-            buffer[x] = (unsigned char)(abs((float)slices[sliceI][y][x] - (float)slices[sliceJ][y][x]/2));
+            buffer[x] = (unsigned char)(abs((float)slices[sliceI][y][x] - (float)slices[sliceJ][y][x])/2);
         }
         of.write((char *)buffer, width);
     }
