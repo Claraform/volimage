@@ -25,11 +25,15 @@ bool VolImage::readImages(std::string baseName){
 
 // compute difference map and write out; define in .cpp
 void VolImage::diffmap(int sliceI, int sliceJ, std::string output_prefix){
-
+	//(unsigned char)(abs((float)volume[i][r][c] - (float)volume[j][r][c])/2)
 }
 
 // extract slice sliceId and write to output - define in .cpp
-void VolImage::extract(int sliceId, std::string output_prefix){
+void VolImage::extract_row(int sliceId, std::string output_prefix){
+
+}
+// extract slice sliceId and write to output - define in .cpp
+void VolImage::extract_col(int sliceId, std::string output_prefix){
 
 }
 
