@@ -3,12 +3,17 @@
 
 #include <string>
 #include <vector>
+#include <ostream>
+#include <istream>
+#include <iostream>
+#include <sstream>
+#include <fstream>
 
 class VolImage
 {
 	private: // private members
 
-		int width, height; // width and height of image stack
+		int width, height,numImages; // width and height of image stack
 		std::vector<unsigned char**> slices; // data for each slice, in order
 
 	public: // public members
